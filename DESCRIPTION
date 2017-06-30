@@ -8,8 +8,9 @@ Maintainer: Han Yu <hyu9@buffalo.edu>
 Depends: R (>= 3.3.1), stats, graphics, utils
 Imports: Rgraphviz, gRbase, igraph, RColorBrewer, fields, doBy, qtlnet,
         methods, qtl, graph
-Suggests: shiny, googleVis
+Suggests: shiny, googleVis, knitr, ggplot2, reshape2, bnlearn
 LazyData: true
+VignetteBuilder: knitr
 Description: Belief propagation methods in Bayesian Networks to propagate evidence through the network. The implementation of these methods are based on the article: Cowell, RG (2005). Local Propagation in Conditional Gaussian Bayesian Networks <http://www.jmlr.org/papers/volume6/cowell05a/>.
 License: GPL-2
 RoxygenNote: 6.0.1
