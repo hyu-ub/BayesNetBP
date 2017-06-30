@@ -1,0 +1,220 @@
+---
+title: "Inference in Bayesian Networks with R package `BayesNetBP`"
+author: "Han Yu, Rachael Hageman Blair"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Inference in Bayesian Networks with R package `BayesNetBP`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: vig_bib.bib
+---
+
+# Introduction
+The `Bayes`ian `Net`work `B`elief `P`ropagation (`BayesNetBP`) package was developed in the R programming language (https://www.r-project.org/), for probabilistic reasoning in Probabilistic Graphical Models (PGMs) known as Bayesian Networks (BNs). Implementation of the belief propagation is based on the work by @cowell2005local. If you would like to use `BayesNetBP` in your publications, please cite the package as
+
+>Han Yu, Moharil Janhavi, Rachael Hageman Blair. "BayesNetBP: An R package for probabilistic reasoning in Bayesian Networks". \textit{Submitted}.
+
+Bayesian networks are a class of PGMs that convey directed dependencies between variables (nodes) in the network.  These dependencies can be read from the graph as conditional probabilities and are factored terms in a compact representation of the joint probability distribution for the variables in the network @lauritzen1996graphical, @koller2009probabilistic. For purely continuous or purely discrete BNs, these local model are often defined using Gaussian regressions and Conditional Probability Table (CPTs), respectively. Conditional Gaussian Bayesian Networks (CG-BNs) accommodate a mixture of discrete and continuous variables, where discrete nodes can be parents of continuous nodes, but not vice-versa. 
+
+Probabilistic reasoning enables a user to absorb information into a BN and make queries about how the probabilities within the network most likely change in light of new information. The inference in BNs exploits new evidence (information) about the states of a node (or nodes) to make probabilistic queries about other nodes in the network.  A major strength of such probabilistic reasoning is that it can be performed with only partial information about the nodes in the network, but can generate comprehensive system-wide queries.
+
+There are two packages developed in the R programming language that can be used for probabilistic reasoning, `RHugin` @rhugin and `gRain` @hojsgaard2012grain. `RHugin` can be used for network inference and belief propagation for CG-BNs, but relies on the commercial software Hugin @hugin. While a free demo version of huginlite can be used in connection with `RHugin`, the reasoning and inference is limited to smaller networks and datasets (50 states and 500 cases) for the demo version. The `gRain` package can handle large datasets and networks, but it supports probabilistic reasoning only in purely discrete networks.  On the other hand, `BayesNetBP`, not only supports probabilistic reasoning in purely discrete, purely continuous, and CG-BNs, but also provides tools for quantification of distributional changes and visualization. Therefore, the `BayesNetBP` package fills a major gap in the graphical modeling tools available in R. The package is the first open source package to facilitate probabilistic reasoning and novel visualizations in all types of CG-BNs.  In the following sections, we present examples that are motivated by problems in statistical genetics.  However, we emphasize that the `BayesNetBP` can be used in connection with any application.
+
+In general, the `BayesNetBP` package takes a DAG and a data set as input. It can accommodate DAGs learned from different packages in R such as `bnlearn` @bnlearn, `RHugin` or a network that is described by an expert based on prior knowledge network structure. In the following sections, we will give a detailed introduction on how to use `BayesNetBP` to perform probablistic reasoning in a CG-BN example. We will also demonstrate the application in purely discrete and continuous networks.
+
+# Conditional Gaussian Bayesian network example
+The data set in this example is from the livers of MRL/MpJ $\times$ SM/J mouse intercross, and consists of gene expression data, genotypes at SNP markers and High Density Lipoprotein (HDL) @leduc2012using.  Genes that share a QTL with HDL on chromosome 1 and also relate to enriched categories for lipid metabolism in KEGG and Gene Ontologies were selected @alvord2007david.  The filtered data used for the modeling can be found in the `BayesNetBP` package. Within this network, we also consider dichotomizing three of the nodes, which creates a second discrete layer in the CG-BN. This example demonstrates the functions for initialization, reasoning and visualizations in a CG-BN.
+
+## Model initialization
+
+For initialization, a `graphNEL` object of DAG and a vector specifying node types are required to build the semi-elimination tree. In this example, the vector `node.class` indicates which nodes are discrete (`TRUE`) and continuous (`FALSE`).  The `ClusterTreeCompile` function builds the graph of semi-elimination tree and get the cluster sets, which are the frame work of the final computational object. The `LocalModelCompile` function estimates the local models from a DAG and a data frame. The columns of the data frame must be named by corresponding node names. The local models computed by `LocalModelCompile` function are distributed into the semi-elimination tree through the `ElimTreeInitialize` function. After initialization, a `ClusterTree` object will be generated.
+
+```{r, fig.show='hold', cache=TRUE}
+library("BayesNetBP")
+data("liver")
+liver$node.class
+cst <- ClusterTreeCompile(dag=liver$dag, node.class = liver$node.class)
+models <- LocalModelCompile(data=liver$data, dag=liver$dag, node.class=liver$node.class)
+tree.init <- ElimTreeInitialize(tree=cst$tree.graph, dag=cst$dag, model=models, 
+  node.sets=cst$cluster.sets, node.class=cst$node.class)
+```
+
+The `ClusterTree` object is not ready for evidence absorption or making queries untill its discrete compartment is propagated. The function `PropagateDBN` will perform the propagation within the discrete compartment of the clustertree object so that the joint distribution tables of all clusters are computed.  Now the `ClusterTree` object is ready for evidence absorption and queries.
+
+```{r, fig.show='hold', cache=TRUE}
+tree.init@propagated
+tree.init.p <- PropagateDBN(tree.init)
+tree.init.p@propagated
+```
+
+## Evidence absorption and queries
+
+A `GetValue` function can be used to check how the values for each discrete variable are coded. For example, the following code shows the locus Chr1\@42.65 has three states, while \textit{Spgl1} has two states \textit{High} and \textit{Low}. This information is helpful for evidence absorption.
+
+```{r, fig.show='hold', cache=TRUE}
+GetValue(tree.init.p, "Nr1i3")
+GetValue(tree.init.p, "chr1_42.65")
+GetValue(tree.init.p, "Spgl1")
+```
+
+The `AbsorbEvidence` function can handle evidence of a numeric value for continuous nodes. For a discrete node, the evidence can be either an observed state (hard evidence) or a likelihood (soft evidence). In the following example, there are three kinds of evidence: \textit{Nrli3} is observed with 1, Chr1\@42.65 is observed with state 1, and the likelihood of \textit{Spgl1} being \textit{High} is 0.9, and being \textit{Low} is 0.2. Those three pieces of information can enter the model simultaneously throught the `AbsorbEvidence` function. The absorbed information in the model can also be accessed. 
+
+```{r, fig.show='hold', cache=TRUE}
+tree.post <- AbsorbEvidence(tree.init.p, c("Nr1i3", "chr1_42.65", "Spgl1"), 
+  list(1, "1", c(High=0.9, Low=0.2)))
+tree.post@absorbed.variables
+tree.post@absorbed.values
+tree.post@absorbed.soft.variables
+tree.post@absorbed.soft.values
+```
+
+The marginal distributions of both continuous and discrete variables before or after observing the above evidence can be queried with the function `Marginals`. The output of `Marginals` function returns a list of two elements. The first element `marginals` is a list of marginals, while the second element `types` is a vector indicating the type of nodes queried. For a continuous variable, the marginal is a mixture of Gaussian distributions, output as a data frame with three columns of sub-population probabilities, means and variances. For a discrete variable, the marginal is a named vector of probabilities. The function `SummaryMarginals` computes means and standard deviations for continuous variables as well as returns the number of sub-populations. In the following example, the marginals of both \textit{Ppap2a} and \textit{Neu1} after absorption are queried, and they comprise of 108 Gaussian sub-populations. 
+
+```{r, fig.show='hold', cache=TRUE}
+marg <- Marginals(tree.post, c("HDL", "Ppap2a", "Neu1", "chr1_71.35"))
+marg$marginals$HDL
+SummaryMarginals(marg)
+head(marg$marginals$Ppap2a)
+```
+
+Marginal distributions of both discrete and continuous nodes can be visualized with the `PlotMarginals` function. The function outputs multiple marginal distributions simultaneously. Marginals of continuous nodes are shown as density plots, while those of discrete nodes as barplots. 
+
+```{r, fig.show='hold', fig.height = 3.5, fig.width = 6, fig.align = "center", cache=TRUE}
+PlotMarginals(marg)
+```
+
+The following codes compare the marginal distributions of Neu1 before and after absorbing the above evidence.
+
+```{r, fig.show='hold', cache=TRUE, fig.height = 4, fig.width = 4, fig.align = "center"}
+var <- "Neu1"
+marg.2 <- Marginals(tree.post, var)
+marg.1 <- Marginals(tree.init.p, var)
+mgns <- list(marg.1$marginals[[1]], marg.2$marginals[[1]])
+names(mgns) <- c(var, var)
+types <- c(marg.1$types[1], marg.2$types[1])
+marg <- list(marginals=mgns, types=types)
+PlotMarginals(marg, groups=c("before", "after"))
+```
+
+The function `FactorQuery` can provide the joint distribution of any combination of factors, as well as conditional distributions of all discrete variables.  In the following example, the joint distrbution of \textit{HDL} and \textit{Cyp2b10}, and the conditional distribution of \textit{HDL}, are computed. For a conditional distribution, the output is the distribution of the queried node conditioned on all its parents.
+
+```{r, fig.show='hold', cache=TRUE}
+FactorQuery(tree.post, c("HDL", "Cyp2b10"), mode="joint")
+FactorQuery(tree.post, c("HDL"), mode="conditional")
+```
+
+## Visualization
+
+The shift of marginals between two models can also be visualized using `PlotCGBN` function. This function takes input of two `ClusterTree` objects, computes the signed and symmetric KL divergence between marginals for each variable, and outputs a graph whose nodes are colored accordingly.  The following figure shows an example in which \textit{Nr1i3} and Chr1\@42.65 have absorbed hard evidence (green).  The changes of the marginals for the other nodes are quantified using a signed and symmetric KL divergence.  They are depicted on the network with a colorbar representaion.  Note that the discrete nodes will only change in one direction.  For the continuous nodes, red indicates an increase in mean (activation), and blue a decrease in mean (inhibited).  This function also returns the signed symmetric KL divergence for each node. 
+
+```{r, fig.show='hold', fig.height = 4, fig.width = 5, fig.align = "center", cache=TRUE}
+PlotCGBN(tree.init.p, tree.post, fontsize = 32)
+```
+
+In the following example, the `PlotCGBN` function is used to demonstrate how conditional independencies within the network change based upon where evidence has been oberved.  The Bayesian network in the upper panel has an active trail between \textit{Spgl1} and Chr1\@84.93, so after observing \textit{Spgl1}, the marginal of chr1\@84.93 will change (symmetric KL divergence is 0.0047).  However, if \textit{Cyp2b10} is also observed (gray in the lower panel), then \textit{Spgl1} and Chr1\@84.93 become \emph{d}-separated, and further absorption of evidence on \textit{Spgl1} will not change the distribution of \textit{Cypb10} (symmetric KL divergence is 0).  The exploration of the conditional independencies described can be performed by simply absorbing \textit{Cyp2b10} into the orginal model to get `tree.1`, and further absorb \textit{Spgl1} into it to get `tree.2`, and finally compare `tree.1` and `tree.2` by `PlotCGBN`.  
+
+```{r, fig.show='hold', fig.height = 4, fig.width = 5, fig.align = "center", cache=TRUE}
+tree.1 <- AbsorbEvidence(tree.init.p, c("Cyp2b10"), list("High"))
+tree.2 <- AbsorbEvidence(tree.1, c("Spgl1"), list("High"))
+tree.3 <- AbsorbEvidence(tree.init.p, c("Spgl1"), list("High"))
+PlotCGBN(tree.init.p, tree.3, fontsize = 32)
+PlotCGBN(tree.1, tree.2, fontsize = 32)
+```
+
+This package also facilitate a systematic assessment of variable marginal shifts over a spectrum of evidence through function `ComputeKLDs`. In the following example, evidences on \textit{Nr1i3} ranging from -3 to 3 are absorbed into the original model, and the divergence of all other variables are computed and returned as a data frame. The output can be visualized by any graphical tools. 
+
+```{r, fig.show='hold', cache=TRUE, fig.height = 4, fig.width = 5, fig.align = "center"}
+library("reshape2")
+library("ggplot2")
+klds <- ComputeKLDs(tree=tree.init.p, var0="Nr1i3", 
+  vars=setdiff(tree.init.p@node, "Nr1i3"), 
+  seq=seq(-3,3,0.2), pbar=FALSE)
+klds.melt <- melt(klds, id="x")
+ggplot(data=klds.melt, aes(x=x, y=value, group=variable, colour=variable)) +
+  geom_line() +
+  ylab("Divergence") +
+  xlab("Nr1i3") +
+  theme_bw() +
+  theme(legend.key = element_blank())
+```
+
+# Discrete Bayesian network example
+In this example, we examine a completely dicrete network.  The yeast dataset is a subset of the widely studied yeast expression dataset comprising of 112 F1 segregants from a cross between BY4716 and RM11-1a strains of \textit{Saccharomyces Cerevisiae} @brem2005landscape.  The original dataset consists of expression values reported as log2(sample/reference) for 6,216 genes. The full data can be accessed in Gene Expression Omnibus (GEO) - accession number GSE1990 @barrett2013ncbi.  The subset of genes was identified after filtering, linkage analysis and model building.  Briefly, 901 expression values mapped to the YeastNet database @kim2013yeastnet.  Linkage analysis was performed on these traits using R/qtl @qtlbook.  369 genes that had a significant QTL were used as predictors in an elastic net regression model with \textit{COX10} as the response variable @zou2005regularization.  The optimal shrinkage parameter was identified as 0.086 using a 10-fold cross validation scheme.  The resulting model shrunk all but 37 regression coefficients to zero. The 38 genes including \textit{COX10} and their 12 SNP markers corresponding to their QTL were included as variables for the graphical model.  This set of 38 genes and their corresponding 12 SNP markers were identified and included in the yeast dataset.  
+
+In order to derive discrete nodes for network analysis, the gene expression values were dichotemized at the median.  The discrete variables are binary genotype states that indicate the parental strain of origin.  To demonstrate compatibility with existing packages, as a starting point, the structure of the BN is learned using a hill-climbing method in the `bnlearn` package.  The modeling assumptions that require genotypes to be upstream of phenotype can be directly encoded using the `blacklist` option. The isolated nodes are removed from the network.
+
+```{r, fig.show='hold', message=FALSE, warning=FALSE, cache=TRUE}
+library("bnlearn")
+library("igraph")
+data(yeast)
+node.names <- names(yeast)
+geno <- node.names[1:12]
+pheno <- node.names[13:50]
+
+bl <- rbind(expand.grid(geno, geno), expand.grid(pheno, geno))
+names(bl) <- c("from", "to")
+
+fit <- bnlearn::hc(yeast, blacklist = bl)
+dag <- as.graphNEL(fit)
+dag.graph <- igraph.from.graphNEL(dag)
+
+deg <- igraph::degree(dag.graph)
+nodes <- names(deg)[deg>0] 
+dag.graph <- induced_subgraph(dag.graph, nodes)
+dag <- igraph.to.graphNEL(dag.graph)
+```
+
+After the network structure being learnt, the models and cluster tree can be built in the same procedure as a CG-BN. `BayesNetBP` brings networks with purely discrete, continuous, or mixed (both discrete and continuous) types of nodes under the same framework, so they can be analyzed conveniently using the identical procedure.  The following figure shows the structure of constructed semi-elimination tree, which is plotted using the `PlotTree` function. The nodes in the cluster tree plot are named by their corresponding elimination nodes.
+
+```{r, fig.show='hold', cache=TRUE, fig.height = 5, fig.width = 5, fig.align = "center"}
+node.class <- rep(TRUE, length(nodes))
+names(node.class) <- nodes
+cst <- ClusterTreeCompile(dag=dag, node.class=node.class)
+models <- LocalModelCompile(data=yeast, dag=dag, node.class=node.class)
+tree.init <- ElimTreeInitialize(tree=cst$tree.graph, dag=cst$dag, model=models, 
+  node.sets=cst$cluster.sets, node.class=cst$node.class)
+tree.init.p <- PropagateDBN(tree.init)
+PlotTree(tree.init.p)
+```
+
+Evidence absorption and marginal computation can be performed in the exactly same manner as in the CG-BN example. The marginals can be visualized using `PlotMarginals`. 
+
+```{r, fig.show='hold', cache=TRUE, fig.height = 3, fig.width = 5, fig.align = "center"}
+tree.post <- AbsorbEvidence(tree.init.p, c("MSY1", "Qchr4"), list("1", "2"))
+marg.yeast <- Marginals(tree.post, nodes[2:5])
+PlotMarginals(marg.yeast)
+```
+
+The `PlotCGBN` function can still be used to compare the marginals from two models.
+
+```{r, fig.show='hold', cache=TRUE, fig.height = 5, fig.width = 5, fig.align = "center"}
+div <- PlotCGBN(tree.init.p, tree.post, fontsize = 24)
+```
+
+Queries on joint and conditional distributions of factors is also straightforward and can be output in tabular form. 
+
+```{r, fig.show='hold', cache=TRUE}
+FactorQuery(tree.post, nodes[2:5], mode="joint")
+FactorQuery(tree.post, "ERG9", mode="conditional")
+```
+
+# Shiny app
+The function `runBayesNetApp` invokes the Shiny app accompanied with this package. The app loads the `toytree` example by default and allows users to load customized `ClusterTree` object. In order to use this feature, a `ClusterTree` object should be built, propagated and named `tree.init.p`, and then saved as a `.RDATA` file. This file can be read in by the app. In order to run the app, the packages `shiny`, `googleVis` and `r-cytoscape.js` need to be installed and loaded. The `r-cytoscape.js` is currently only available on GitHub repository and can be installed using the following code.
+
+```{r, fig.show='hold', cache=TRUE, eval=FALSE}
+library("devtools")
+devtools::install_github("cytoscape/r-cytoscape.js")
+runBayesNetApp()
+```
+
+The console of `BayesNetBP` Shiny app comprises of three panels. The first part controls the model loading and network layouts. It also allows user to subset the network to faciliate visualization. The `Expand` function can trace the ancestors, descendants, or both, of a selected node in a stepwise manner. The expanded nodes will be colored orange. By clicking `Add to list`, the expanded nodes will be selected and shown purple. The user can then continue selecting additional nodes by using `Expand` and `Add to list` functions. After selecting desired node sets, the user can subset the graph by clicking `Subset`. The nodes in subsetted graph retain all properties before subsetting, including their colors and divergence. Other operations can also be performed on the reduced network.
+
+The second panel is used for absorption of fixed and hard evidences. The users can add multiple pieces of evidence to a list and absorb them into the model simultaneously. The nodes with evidence absorbed will be colored green when the absorption is complete. Marginals of the nodes can be quried as density or bar plots by node types. If a set of evidence has been absorbed, the marginals both before and after absorption will be returned to facilitate comparison. To query the marginals, the user can select the node of interest in the graph, and then click `Plot Marginals`. The `Shift in Marginals` function computes the signed and symmetric Kullback-Liebler divergence for all applicable nodes in the network, and colors the nodes in a similar manner as the function `PlotCGBN`. 
+
+The function for systematic assessment of variable marginal shifts is provided in the third panel. It allows user to specify which node to absorb the spectrum of evidence in a menu, and to select whose divergence to be calculated by firstly selecting the node on the graph and then clicking `Add to Plot List`. Alternatively, the user can use Add All function to select all applicable nodes into the plotting list. The result is visualized in an interactive plot.
+
+# References
