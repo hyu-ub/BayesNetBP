@@ -1,7 +1,7 @@
 Package: BayesNetBP
 Type: Package
 Title: Bayesian Network Belief Propagation
-Version: 1.2.1
+Version: 1.2.7
 Date: 2017-06-01
 Author: Han Yu
 Maintainer: Han Yu <hyu9@buffalo.edu>
