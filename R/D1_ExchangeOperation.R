@@ -27,15 +27,12 @@ Exchange <- function(bag.post, bag.lp) {
   
   beta.1 <- bag.post@beta[ind.1, , drop=FALSE]
   
-  
   ## changed here for pure continuous case
   if (ncol(bag.lp@beta)==0 && nrow(bag.lp@beta)==0) {
     beta.2 <- matrix(0, ncol=0, nrow=1)
   } else {
     beta.2 <- bag.lp@beta[ind.2, , drop=FALSE]
   }
-  
-  
   
   ## processing variables
   
@@ -94,9 +91,13 @@ Exchange <- function(bag.post, bag.lp) {
   config.rem.1 <- setdiff(config.var.1, config.var.int)
   config.rem.2 <- setdiff(config.var.2, config.var.int)
   
-  
+  ###### changed > 1.2.1
   if(ncol(bag.post@config)==0 && ncol(bag.lp@config)==0) {
     config.after <- matrix(0, ncol=0, nrow=0)
+  } else if (ncol(bag.post@config)==0) {
+    config.after <- bag.lp@config
+  } else if (ncol(bag.lp@config)==0) {
+    config.after <- bag.post@config
   } else {
     config.after <- cbind(bag.post@config[ind.1, config.rem.1, drop=FALSE], 
                           bag.lp@config[ind.2, config.rem.2, drop=FALSE],
