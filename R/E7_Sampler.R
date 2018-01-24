@@ -26,12 +26,42 @@
 #' @export
 
 Sampler <- function(tree, n) {
+<<<<<<< HEAD
   # tree <- tree.init.p; n <- 1000
+=======
+<<<<<<< HEAD
+  # tree <- tree.post.2; n <- 100
+=======
+  # tree <- tree.init.p; n <- 1000
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
   abd <- tree@absorbed.variables
   discrete.nodes <- names(tree@node.class)[tree@node.class]
   continuous.nodes <- names(tree@node.class)[!tree@node.class]
   disc.v <- setdiff(discrete.nodes, abd)
   cont.v <- setdiff(continuous.nodes, abd)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  
+  ## Special case, all discrete nodes observed
+  
+  if (length(disc.v) == 0) {
+    cont.g <- data.frame()
+    for (i in 1:n){
+      vec.g <- continuous.single.sampler.special(tree, cont.v)
+      cont.g <- rbind(cont.g, vec.g)
+    }
+    colnames(cont.g) <- cont.v
+    rownames(cont.g) <- NULL
+    return(cont.g)
+  }
+  
+  ###########################################
+  
+=======
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
   disc.jd <- FactorQuery(tree, vars = disc.v, mode = "joint")
   cnts <- rmultinom(n = 1, size = n, prob = disc.jd$prob)
   config.tab <- disc.jd[, 1:(ncol(disc.jd)-1)]
@@ -54,6 +84,13 @@ Sampler <- function(tree, n) {
   disc.g <- config.tab[rep(1:nrow(config.tab), cnts), ]
   colnames(disc.g) <- colnames(config.tab)
   generated <- cbind(disc.g, cont.g)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  rownames(generated) <- NULL
+=======
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
   return(generated)
 }
 
@@ -111,5 +148,42 @@ continuous.single.sampler <- function(tree, cont.v, this.config) {
 }
 
 ######################################
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+## Sampler for no discrete variables
+######################################
+
+continuous.single.sampler.special <- function(tree, cont.v) {
+  
+  x.cont <- rep(NA, length(cont.v))
+  names(x.cont) <- cont.v
+  x.gen <- c()
+  
+  for (nd in rev(cont.v)) {
+    this.pot <- tree@lppotential[[nd]][[1]]
+    
+    if(ncol(this.pot@beta) == 0) {
+      mu <- this.pot@const[1]
+    } else {
+      this.beta <- this.pot@beta
+      beta.var <- colnames(this.beta)
+      var.g <- intersect(x.gen, beta.var)
+      betas <- this.beta[1, var.g]
+      mu <- this.pot@const[1] + sum(betas * x.cont[var.g])
+    }
+    
+    sd <- sqrt(this.pot@variance[1])
+    
+    x.cont[nd] <- rnorm(1, mean = mu, sd = sd)
+    x.gen <- c(x.gen, nd)
+  }
+  
+  return(x.cont)
+}
+=======
+
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
 

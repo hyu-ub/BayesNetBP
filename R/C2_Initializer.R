@@ -8,6 +8,14 @@
 #' @param data a \code{data.frame} object
 #' @param node.class a named \code{vector} of \code{logical} values, \code{TRUE} if node 
 #' is discrete, \code{FASLE} if otherwise
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+#' @param propagate \code{logical} \code{TRUE} if the discrete part of the \code{\linkS4class{ClusterTree}}
+#' to be propagated
+=======
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
 #' 
 #' @return \code{\linkS4class{ClusterTree}} object
 #' 
@@ -35,7 +43,15 @@ Initializer <- function(dag, data, node.class, propagate = TRUE){
                                   node.sets=cst$cluster.sets, 
                                   node.class=cst$node.class)
   if(propagate) {
+<<<<<<< HEAD
     tree.init <- PropagateDBN(tree.init)
+=======
+<<<<<<< HEAD
+    tree.init <- Propagate(tree.init)
+=======
+    tree.init <- PropagateDBN(tree.init)
+>>>>>>> 391708a0cb06a04af75029f6c9bcc10c6c258fd4
+>>>>>>> Version-1.3.0
   }
   return(tree.init)
 }
