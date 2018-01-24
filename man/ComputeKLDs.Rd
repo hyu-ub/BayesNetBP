@@ -4,7 +4,7 @@
 \alias{ComputeKLDs}
 \title{Compute signed and symmetric Kullback-Leibler divergence}
 \usage{
-ComputeKLDs(tree, var0, vars, seq, pbar = TRUE)
+ComputeKLDs(tree, var0, vars, seq, pbar = TRUE, method = "gaussian")
 }
 \arguments{
 \item{tree}{a \code{\linkS4class{ClusterTree}} object}

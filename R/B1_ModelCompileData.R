@@ -3,11 +3,13 @@ ModelCompileData <- function(data, dag, node.class) {
   
   # data=liver$data; dag=liver$dag; node.class=liver$node.class;
   # data=nci.s; dag=tree.g
+  # data=df.2; dag=bn.graph; node.class=node.class;
+  
   ###########
   
   # dag, data.frame, node.class
   # data <- dat
-  nodes <- dag@nodes
+  nodes <- names(node.class)# dag@nodes
   dag.graph <- igraph.from.graphNEL(dag)
   
   value.list <- list()
@@ -15,6 +17,12 @@ ModelCompileData <- function(data, dag, node.class) {
   continuous.nodes <- nodes[!node.class]
   
   df <- data
+  
+  ###### convert discrete variables into characters
+  
+  df[discrete.nodes] <- lapply(df[discrete.nodes], as.character)
+  
+  #################################################
   
   dat.complete.0 <- df[complete.cases(df),]
   
@@ -122,7 +130,7 @@ ModelCompileData <- function(data, dag, node.class) {
         
         colnames(this.bag@beta) <- continuous.parents
         
-        df.2 <- dat.complete[c(this.node, continuous.parents)]
+        df.2 <- dat.complete[, c(this.node, continuous.parents), drop=FALSE]
         df.sub <- df.2
         form.str <- paste0(this.node, "~.")
         form <- as.formula(form.str)
@@ -185,7 +193,7 @@ ModelCompileData <- function(data, dag, node.class) {
       for (j in 1:length(comb.val.list)) {
         # j <- 1
         sub.ind <- which(df.comb==comb.val.list[j])
-        df.2 <- dat.complete[c(this.node, continuous.parents)]
+        df.2 <- dat.complete[ , c(this.node, continuous.parents), drop=FALSE] #######
         df.sub <- df.2[sub.ind,]
         form.str <- paste0(this.node, "~.")
         form <- as.formula(form.str)

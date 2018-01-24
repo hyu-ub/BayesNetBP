@@ -33,7 +33,9 @@
 #' }
 #' @export
 
-ComputeKLDs <- function(tree, var0, vars, seq, pbar=TRUE) {
+ComputeKLDs <- function(tree, var0, vars, seq, pbar=TRUE, method = "gaussian") {
+  
+  cat(method, "\n")
   
   node.class <- tree@node.class
   tree.graph <- tree@graph$tree
@@ -60,7 +62,8 @@ ComputeKLDs <- function(tree, var0, vars, seq, pbar=TRUE) {
     for(j in 1:n.v){
       klds[i,j] <- SymmetricKLD(posteriors.1$marginals[[j]], 
                                 posteriors.2$marginals[[j]], 
-                                discrete = node.class[vars[j]])
+                                discrete = node.class[vars[j]],
+                                method = method) ######
     }
     
     if(pbar){
