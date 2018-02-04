@@ -12,10 +12,3 @@ This package is also available on [CRAN](https://cran.r-project.org/package=Baye
 library("devtools")
 install_github("hyu-ub/BayesNetBP")
 ```
-
-The [vignette](https://github.com/hyu-ub/BayesNetBP/blob/master/inst/doc/BayesNetBP_intro.pdf) has instructions on how to use this package to perform probabilistic reasoning and inferece in Bayesian networks. To view the [vignette](https://github.com/hyu-ub/BayesNetBP/blob/master/inst/doc/BayesNetBP_intro.pdf), please run
-
-```{r, eval=FALSE}
-library("BayesNetBP")
-browseVignettes("BayesNetBP")
-```
