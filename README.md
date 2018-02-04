@@ -10,5 +10,5 @@ This package is also available on [CRAN](https://cran.r-project.org/package=Baye
 
 ```{r, eval=FALSE}
 library("devtools")
-install_github("hyu-ub/BayesNetBP")
+install_github("hyu-ub/BayesNetBP/BayesNetBP")
 ```
