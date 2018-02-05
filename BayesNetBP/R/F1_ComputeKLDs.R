@@ -32,7 +32,7 @@
 
 ComputeKLDs <- function(tree, var0, vars, seq, pbar=TRUE, method = "gaussian") {
   
-  cat(method, "\n")
+  # cat(method, "\n")
   
   node.class <- tree@node.class
   tree.graph <- tree@graph$tree

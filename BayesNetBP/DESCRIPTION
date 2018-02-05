@@ -7,7 +7,7 @@ Author: Han Yu
 Maintainer: Han Yu <hyu9@buffalo.edu>
 Depends: R (>= 3.3.1), stats, graphics, utils
 Imports: Rgraphviz, gRbase, igraph, RColorBrewer, fields, doBy, qtlnet,
-        methods, qtl, graph
+        methods, qtl, graph, bnlearn
 Suggests: shiny, googleVis
 URL: https://github.com/hyu-ub/BayesNetBP
 BugReports: https://github.com/hyu-ub/BayesNetBP/issues
