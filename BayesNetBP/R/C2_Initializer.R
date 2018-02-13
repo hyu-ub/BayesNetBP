@@ -2,7 +2,10 @@
 #'
 #' Initialize a ClusterTree object
 #'
-#' @details This is a wrapper function to initialize a \code{\linkS4class{ClusterTree}} object.
+#' @details A wrapper function to initialize a \code{\linkS4class{ClusterTree}} object. It combines 
+#' the functions of \code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}}, 
+#' \code{\link{ElimTreeInitialize}} and \code{\link{Propagate}}, thus initialize the \code{\linkS4class{ClusterTree}} 
+#' object in a single step.
 #'
 #' @param dag a \code{graphNEL} object of the Bayesian network
 #' @param data a \code{data.frame} object
@@ -23,9 +26,8 @@
 #' tree.init.p <- Initializer(dag=liver$dag, data=liver$data, 
 #'                            node.class=liver$node.class, 
 #'                            propagate = TRUE)
-#' @seealso The functions \code{\link{ClusterTreeCompile}} and \code{\link{LocalModelCompile}} provide necessary
-#' 
-#' objects to obtain \code{\linkS4class{ClusterTree}} object by initializing the elimination tree through this function.
+#' @seealso \code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}}, \code{\link{ElimTreeInitialize}},
+#' \code{\link{Propagate}}
 #' 
 #' @export
 

@@ -24,7 +24,10 @@ to be propagated}
 Initialize a ClusterTree object
 }
 \details{
-This is a wrapper function to initialize a \code{\linkS4class{ClusterTree}} object.
+A wrapper function to initialize a \code{\linkS4class{ClusterTree}} object. It combines 
+the functions of \code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}}, 
+\code{\link{ElimTreeInitialize}} and \code{\link{Propagate}}, thus initialize the \code{\linkS4class{ClusterTree}} 
+object in a single step.
 }
 \examples{
 data(liver)
@@ -37,9 +40,8 @@ Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian network
 Journal of Machine Learning Research, 6(Sep), 1517-1550.
 }
 \seealso{
-The functions \code{\link{ClusterTreeCompile}} and \code{\link{LocalModelCompile}} provide necessary
-
-objects to obtain \code{\linkS4class{ClusterTree}} object by initializing the elimination tree through this function.
+\code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}}, \code{\link{ElimTreeInitialize}},
+\code{\link{Propagate}}
 }
 \author{
 Han Yu
