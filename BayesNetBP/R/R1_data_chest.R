@@ -1,4 +1,4 @@
-#' A simulated data from the Chest Clinic example by Dethlefsen and Hojsgaard
+#' A simulated data from the Chest Clinic example
 #' 
 #' Simulated data from the Chest Clinic example (also known as the Asia example) 
 #' from Lauritzen and Spiegelhalter, 1988.

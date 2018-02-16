@@ -16,7 +16,7 @@
 #' @slot jpt A named \code{list} of the joint distribution tables.
 #' @slot lppotential A named \code{list} of the linear predictor potentials assigned to each cluster in the lppotential slots.
 #' @slot postbag A named \code{list} of the linear predictor potentials assigned to each cluster in the postbag slots.
-#' @slot activefalg A named \code{vector} of logical values indicating whether a continuous cluster is active.
+#' @slot activeflag A named \code{vector} of logical values indicating whether a continuous cluster is active.
 
 #' @slot absorbed.variables A \code{vector} of characters indicating variables observed with hard evidence.
 #' @slot absorbed.values A \code{list} indicating the values of the variables observed with hard evidence. 
@@ -46,11 +46,4 @@ setClass("ClusterTree",
                       absorbed.soft.values = "list"
          )
 )
-
-
-
-
-
-
-
 

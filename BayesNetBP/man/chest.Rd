@@ -3,7 +3,7 @@
 \docType{data}
 \name{chest}
 \alias{chest}
-\title{A simulated data from the Chest Clinic example by Dethlefsen and Hojsgaard}
+\title{A simulated data from the Chest Clinic example}
 \format{The data set \code{chest} contains two objects: 
 \describe{
  \item{\code{data}}{a \code{data.frame} object of 10000 observations and 8 discrete variables.}

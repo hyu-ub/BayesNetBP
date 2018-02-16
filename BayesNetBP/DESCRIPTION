@@ -2,10 +2,10 @@ Package: BayesNetBP
 Type: Package
 Title: Bayesian Network Belief Propagation
 Version: 1.3.0
-Date: 2017-06-01
+Date: 2018-02-15
 Author: Han Yu
 Maintainer: Han Yu <hyu9@buffalo.edu>
-Depends: R (>= 3.3.1), stats, graphics, utils
+Depends: R (>= 3.3.0), stats, graphics, utils
 Imports: Rgraphviz, gRbase, igraph, RColorBrewer, fields, doBy, qtlnet,
         methods, qtl, graph, bnlearn
 Suggests: shiny, googleVis
@@ -16,7 +16,6 @@ Description: Belief propagation methods in Bayesian Networks to propagate eviden
 License: GPL-2
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-05-08 14:26:33 UTC; Han
+Packaged: 2018-02-16 14:59:54 UTC; Han
 Repository: CRAN
-Date/Publication: 2017-05-08 22:17:16 UTC
-
+Date/Publication: 2018-02-15 22:10:16 UTC

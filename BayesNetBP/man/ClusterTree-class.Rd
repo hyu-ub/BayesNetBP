@@ -37,7 +37,7 @@ The \code{ClusterTree} object is the computational object for belief propagation
 
 \item{\code{postbag}}{A named \code{list} of the linear predictor potentials assigned to each cluster in the postbag slots.}
 
-\item{\code{activefalg}}{A named \code{vector} of logical values indicating whether a continuous cluster is active.}
+\item{\code{activeflag}}{A named \code{vector} of logical values indicating whether a continuous cluster is active.}
 
 \item{\code{absorbed.variables}}{A \code{vector} of characters indicating variables observed with hard evidence.}
 
