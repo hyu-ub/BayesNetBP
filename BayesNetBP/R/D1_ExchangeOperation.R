@@ -57,11 +57,15 @@ Exchange <- function(bag.post, bag.lp) {
     } else {
       c <- beta.2[, w, drop=FALSE]
     }
-    
   } else {
     expand.2 <- matrix(0, nrow=nt, ncol=length(rem.2))
     colnames(expand.2) <- rem.2
-    c.0 <- cbind(beta.2, expand.2)
+    ## bug fix 2019.2.18
+    if(ncol(beta.2) == 0) {
+      c.0 <- expand.2
+    } else {
+      c.0 <- cbind(beta.2, expand.2)
+    }
     c <- c.0[, w, drop=FALSE]
   }
   
