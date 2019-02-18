@@ -6,7 +6,7 @@ Date: 2019-02-18
 Author: Han Yu
 Maintainer: Han Yu <hyu9@buffalo.edu>
 Depends: R (>= 3.3.0), stats, graphics, utils
-Imports: Rgraphviz, gRbase, igraph, RColorBrewer, fields, doBy, qtlnet,
+Imports: Rgraphviz, igraph, RColorBrewer, fields, doBy, qtlnet,
         methods, qtl, graph, bnlearn
 Suggests: shiny, googleVis
 URL: https://github.com/hyu-ub/BayesNetBP
@@ -16,6 +16,6 @@ Description: Belief propagation methods in Bayesian Networks to propagate eviden
 License: GPL-2
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-02-16 14:59:54 UTC; Han
+Packaged: 2019-02-18 19:28:43 UTC; Han
 Repository: CRAN
-Date/Publication: 2018-02-15 22:10:16 UTC
+Date/Publication: 2019-02-18 21:06:37 UTC
