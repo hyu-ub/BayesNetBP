@@ -27,7 +27,6 @@
 #' Journal of Machine Learning Research, 6(Sep), 1517-1550. 
 #'
 #' @importFrom igraph neighbors add_edges are_adjacent delete_vertices graph_from_adjacency_matrix graph_from_data_frame topological.sort
-#' @import gRbase
 #' 
 #' @examples 
 #' 
@@ -41,7 +40,7 @@
 ClusterTreeCompile <- function(dag, node.class) {
   
   elim.order <- EliminationOrder(dag, node.class=node.class)
-  graph.mor <- moralize(dag)
+  graph.mor <- Moralize(dag)
   graph.tri <- Triangulate(graph.mor, elim.order)
   cs <- ElimTreeNodes(graph.tri, elim.order)
   strongET <- StrongEliminationTree(cs, elim.order)

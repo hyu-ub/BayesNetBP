@@ -15,7 +15,6 @@
 #' @importFrom graph nodes
 #' @importFrom igraph neighbors
 #' @importFrom methods new
-#' @importFrom gRbase children
 #' @examples 
 #' 
 #' data(toytree)

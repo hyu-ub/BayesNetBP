@@ -131,7 +131,7 @@ PlotCGBN <- function(tree.1, tree.2, fontsize=NULL, pbar=FALSE, plotting=TRUE) {
   
   fill.1 <- rep("khaki", length(vars))
   names(fill.1) <- var.1
-  fill.2 <- rep("green", length(vars))
+  fill.2 <- rep("orange", length(vars))
   names(fill.2) <- var.2
   fill.inter <- rep("gray", length(vars))
   names(fill.inter) <- var.inter

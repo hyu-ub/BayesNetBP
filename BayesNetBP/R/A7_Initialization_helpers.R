@@ -73,6 +73,7 @@ is.subset <- function(x,y){
 #' @importFrom graph nodes
 #' @importFrom qtlnet loci.qtlnet
 #' @importFrom qtl scanone
+#' @importFrom igraph is_dag
 extractQTL <- function(qtl.fit) {
   
   qtl.graph <- igraph.qtlnet(qtl.fit)
@@ -80,7 +81,7 @@ extractQTL <- function(qtl.fit) {
   
   dag <- igraph.to.graphNEL(qtl.graph)
   
-  if (!is.DAG(dag)) stop("Graph is not a DAG.")
+  if (!is_dag(qtl.graph)) stop("Graph is not a DAG.")
   
   graph::nodes(dag) <- gsub("@", "_", graph::nodes(dag))
   node.names <- graph::nodes(dag)

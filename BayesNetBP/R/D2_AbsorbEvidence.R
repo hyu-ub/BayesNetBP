@@ -21,7 +21,7 @@
 #' graphical structures and their application to expert systems. Journal of the Royal Statistical 
 #' Society. Series B (Methodological), 157-224.
 #' 
-#' @import gRbase stats graphics utils
+#' @import stats graphics utils
 #' @importFrom igraph igraph.from.graphNEL igraph.to.graphNEL V
 #' 
 #' 

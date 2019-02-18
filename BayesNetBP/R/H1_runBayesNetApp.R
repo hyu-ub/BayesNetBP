@@ -35,8 +35,6 @@
 #' 
 #' @author Han Yu
 #' 
-#' @importFrom gRbase edgeList parents
-#' 
 #' @examples 
 #' 
 #' \dontrun{
@@ -48,6 +46,8 @@
 #' # run the App in browser
 #' runBayesNetApp(launch.browser=TRUE)
 #' }
+#' 
+#' @importFrom igraph igraph.from.graphNEL as_edgelist
 #' 
 #' @export
 
