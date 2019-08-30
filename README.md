@@ -4,6 +4,8 @@ This package implements belief propagation methods in Bayesian Networks to propa
 
 >Han Yu, Moharil Janhavi, Rachael Hageman Blair. "BayesNetBP: An R package for probabilistic reasoning in Bayesian Networks". Submitted.
 
+Andrew Yan from Cornell University has also made significant contribution to this package in improving its computational efficiency and expanding its functionality.
+
 The belief propagation methods is implemented through interfacing the work by [Cowell, 2005](http://www.jmlr.org/papers/volume6/cowell05a/cowell05a.pdf) and the sum-product algorithm as described by Daphne Koller and Nir Friedman. Probabilistic graphical models: principles and techniques. MIT press, 2009.
 
 This package is also available on [CRAN](https://cran.r-project.org/package=BayesNetBP), but will be more frequently updated on GitHub. To install the package from GitHub, please use
