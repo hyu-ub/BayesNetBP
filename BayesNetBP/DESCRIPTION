@@ -1,21 +1,24 @@
 Package: BayesNetBP
 Type: Package
 Title: Bayesian Network Belief Propagation
-Version: 1.4.1
-Date: 2019-02-18
-Author: Han Yu
+Version: 1.4.2
+Date: 2019-10-22
+Author: Han Yu, Andrew Yan
 Maintainer: Han Yu <hyu9@buffalo.edu>
 Depends: R (>= 3.3.0), stats, graphics, utils
 Imports: Rgraphviz, igraph, RColorBrewer, fields, doBy, qtlnet,
         methods, qtl, graph, bnlearn
-Suggests: shiny, googleVis
+Suggests: 
+    shiny,
+    googleVis,
+    cyjShiny
 URL: https://github.com/hyu-ub/BayesNetBP
 BugReports: https://github.com/hyu-ub/BayesNetBP/issues
 LazyData: true
 Description: Belief propagation methods in Bayesian Networks to propagate evidence through the network. The implementation of these methods are based on the article: Cowell, RG (2005). Local Propagation in Conditional Gaussian Bayesian Networks <http://www.jmlr.org/papers/volume6/cowell05a/>.
 License: GPL-2
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-02-18 19:28:43 UTC; Han
+Packaged: 2019-10-22 19:28:43 UTC; Han
 Repository: CRAN
-Date/Publication: 2019-02-18 21:06:37 UTC
+Date/Publication: 2019-10-22 21:06:37 UTC

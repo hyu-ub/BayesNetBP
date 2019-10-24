@@ -11,7 +11,7 @@ Initializer(dag, data, node.class, propagate = TRUE)
 
 \item{data}{a \code{data.frame} object}
 
-\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node 
+\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node
 is discrete, \code{FASLE} if otherwise}
 
 \item{propagate}{\code{logical} \code{TRUE} if the discrete part of the \code{\linkS4class{ClusterTree}}
@@ -24,19 +24,19 @@ to be propagated}
 Initialize a ClusterTree object
 }
 \details{
-A wrapper function to initialize a \code{\linkS4class{ClusterTree}} object. It combines 
-the functions of \code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}}, 
-\code{\link{ElimTreeInitialize}} and \code{\link{Propagate}}, thus initialize the \code{\linkS4class{ClusterTree}} 
+A wrapper function to initialize a \code{\linkS4class{ClusterTree}} object. It combines
+the functions of \code{\link{ClusterTreeCompile}}, \code{\link{LocalModelCompile}},
+\code{\link{ElimTreeInitialize}} and \code{\link{Propagate}}, thus initialize the \code{\linkS4class{ClusterTree}}
 object in a single step.
 }
 \examples{
 data(liver)
-tree.init.p <- Initializer(dag=liver$dag, data=liver$data, 
-                           node.class=liver$node.class, 
+tree.init.p <- Initializer(dag=liver$dag, data=liver$data,
+                           node.class=liver$node.class,
                            propagate = TRUE)
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
 Journal of Machine Learning Research, 6(Sep), 1517-1550.
 }
 \seealso{

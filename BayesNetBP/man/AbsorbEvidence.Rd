@@ -29,18 +29,18 @@ queries and absorbing additional evidence.
 \examples{
 
 data(liver)
-tree.init.p <- Initializer(dag=liver$dag, data=liver$data, 
-                           node.class=liver$node.class, 
+tree.init.p <- Initializer(dag=liver$dag, data=liver$data,
+                           node.class=liver$node.class,
                            propagate = TRUE)
 tree.post <- AbsorbEvidence(tree.init.p, c("Nr1i3", "chr1_42.65"), list(1,"1"))
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
 Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
 \cr
-Lauritzen, S. L., & Spiegelhalter, D. J. (1988). Local computations with probabilities on 
-graphical structures and their application to expert systems. Journal of the Royal Statistical 
+Lauritzen, S. L., & Spiegelhalter, D. J. (1988). Local computations with probabilities on
+graphical structures and their application to expert systems. Journal of the Royal Statistical
 Society. Series B (Methodological), 157-224.
 }
 \author{

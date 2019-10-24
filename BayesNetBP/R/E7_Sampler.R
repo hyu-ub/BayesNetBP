@@ -1,25 +1,25 @@
 #' Sampling from the Bayesian network
 #'
 #' Sampling from the joint distribution of all applicable nodes in the Bayesian network.
-#' 
+#'
 #' @param tree a \code{\linkS4class{ClusterTree}} object
 #' @param n a \code{integer} number of observations to generate
 #' @return a \code{dataframe} of generated data
-#' 
+#'
 #' @author Han Yu
-#' 
-#' @references Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
-#' Journal of Machine Learning Research, 6(Sep), 1517-1550. 
-#' 
+#'
+#' @references Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+#' Journal of Machine Learning Research, 6(Sep), 1517-1550.
+#'
 #' @import qtlnet doBy
 #' @importFrom graph nodes
 #' @importFrom igraph neighbors
 #' @importFrom methods new
-#' @examples 
-#' 
+#' @examples
+#'
 #' data(toytree)
 #' Sampler(tree = toytree, n = 10)
-#' 
+#'
 #' @export
 
 Sampler <- function(tree, n) {
@@ -29,9 +29,9 @@ Sampler <- function(tree, n) {
   continuous.nodes <- names(tree@node.class)[!tree@node.class]
   disc.v <- setdiff(discrete.nodes, abd)
   cont.v <- setdiff(continuous.nodes, abd)
-  
+
   ## Special case, all discrete nodes observed
-  
+
   if (length(disc.v) == 0) {
     cont.g <- data.frame()
     for (i in 1:n){
@@ -42,14 +42,14 @@ Sampler <- function(tree, n) {
     rownames(cont.g) <- NULL
     return(cont.g)
   }
-  
+
   ###########################################
-  
+
   disc.jd <- FactorQuery(tree, vars = disc.v, mode = "joint")
   cnts <- rmultinom(n = 1, size = n, prob = disc.jd$prob)
   config.tab <- disc.jd[, 1:(ncol(disc.jd)-1)]
   config.tab <- data.frame(lapply(config.tab, as.character), stringsAsFactors=FALSE)
-  
+
   cont.g <- data.frame()
   for (i in 1:nrow(config.tab)) {
     if (cnts[i] == 0) {
@@ -74,12 +74,32 @@ Sampler <- function(tree, n) {
 ######
 
 compatible <- function(config.1, config.2) {
+
   var.1 <- names(config.1)
   var.2 <- names(config.2)
+
   var.b <- intersect(var.1, var.2)
+
+  # no_intersection <- TRUE
+  # tryCatch(
+  #   {
+  #     capture.output(graphNEL(nodes = c(var.1, var.2))) # throws error if duplicate nodes
+  #   },
+  #   error = function(e){
+  #     no_intersection <- FALSE
+  #   }, warning = function(e){
+  #     no_intersection <- FALSE
+  #   })
+  #
+  # if(no_intersection){
+  #   return(TRUE)
+  # }
+
+
   if (length(var.b)==0) {
     return(TRUE)
   }
+
   config.sub.1 <- config.1[var.b]
   config.sub.2 <- config.2[var.b]
   return(identical(config.sub.1, config.sub.2))
@@ -87,25 +107,31 @@ compatible <- function(config.1, config.2) {
 
 ######################################
 
+# new version
 continuous.single.sampler <- function(tree, cont.v, this.config) {
   x.cont <- rep(NA, length(cont.v))
   names(x.cont) <- cont.v
   x.gen <- c()
-  ## "protime", "ast", "alk", "trig", "copper", "chol", "albumin", "bili" 
+  ## "protime", "ast", "alk", "trig", "copper", "chol", "albumin", "bili"
   for (nd in rev(cont.v)) {
     this.pot <- tree@lppotential[[nd]][[1]]
-    
+
     if(ncol(this.pot@config) == 0) {
       selectedConfig <- 1
     } else {
-      compat <- apply(this.pot@config, 1, compatible, config.2 = this.config)
-      selectedConfig <- which(compat)
+      same_named_values <- this.config[intersect(colnames(this.pot@config), names(this.config))] # new implementation
+      selectedConfig <- which(apply(this.pot@config, 1, function(x) identical(x, same_named_values)))
+
+      # print(c("CONFIG:", selectedConfig))
+
+      # compat <- apply(this.pot@config, 1, compatible, config.2 = this.config)
+      # selectedConfig <- which(compat)
     }
-    
+
     if(length(selectedConfig) > 1){
       warning("More than one configuration selected!")
     }
-    
+
     if(ncol(this.pot@beta) == 0) {
       mu <- this.pot@const[selectedConfig]
     } else {
@@ -115,9 +141,9 @@ continuous.single.sampler <- function(tree, cont.v, this.config) {
       betas <- this.beta[selectedConfig, var.g]
       mu <- this.pot@const[selectedConfig] + sum(betas * x.cont[var.g])
     }
-    
+
     sd <- sqrt(this.pot@variance[selectedConfig])
-    
+
     x.cont[nd] <- rnorm(1, mean = mu, sd = sd)
     x.gen <- c(x.gen, nd)
   }
@@ -129,14 +155,14 @@ continuous.single.sampler <- function(tree, cont.v, this.config) {
 ######################################
 
 continuous.single.sampler.special <- function(tree, cont.v) {
-  
+
   x.cont <- rep(NA, length(cont.v))
   names(x.cont) <- cont.v
   x.gen <- c()
-  
+
   for (nd in rev(cont.v)) {
     this.pot <- tree@lppotential[[nd]][[1]]
-    
+
     if(ncol(this.pot@beta) == 0) {
       mu <- this.pot@const[1]
     } else {
@@ -146,13 +172,13 @@ continuous.single.sampler.special <- function(tree, cont.v) {
       betas <- this.beta[1, var.g]
       mu <- this.pot@const[1] + sum(betas * x.cont[var.g])
     }
-    
+
     sd <- sqrt(this.pot@variance[1])
-    
+
     x.cont[nd] <- rnorm(1, mean = mu, sd = sd)
     x.gen <- c(x.gen, nd)
   }
-  
+
   return(x.cont)
 }
 

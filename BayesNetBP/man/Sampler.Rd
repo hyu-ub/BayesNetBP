@@ -24,7 +24,7 @@ Sampler(tree = toytree, n = 10)
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
 Journal of Machine Learning Research, 6(Sep), 1517-1550.
 }
 \author{

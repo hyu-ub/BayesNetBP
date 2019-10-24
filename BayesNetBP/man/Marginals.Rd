@@ -23,11 +23,11 @@ Get the marginal distributions of multiple variables
 }
 \details{
 Get the marginal distributions of multiple variables. The function \code{Marginals}
-returns a \code{list} of marginal distributions. The marginal distribution of a discrete variable 
-is a named vector of probabilities. Meanwhile, the marginal distributions of 
-continous variables in a CG-BN model are mixtures of Gaussian distributions. 
-To fully represent this information, the marginal of a continuous variable is represented by 
-a \code{data.frame} with three columns to specify 
+returns a \code{list} of marginal distributions. The marginal distribution of a discrete variable
+is a named vector of probabilities. Meanwhile, the marginal distributions of
+continous variables in a CG-BN model are mixtures of Gaussian distributions.
+To fully represent this information, the marginal of a continuous variable is represented by
+a \code{data.frame} with three columns to specify
 parameters for each Gaussian distribution in the mixture, which are
 
 \describe{
@@ -39,8 +39,8 @@ parameters for each Gaussian distribution in the mixture, which are
 \examples{
 
 data(liver)
-tree.init.p <- Initializer(dag=liver$dag, data=liver$data, 
-                           node.class=liver$node.class, 
+tree.init.p <- Initializer(dag=liver$dag, data=liver$data,
+                           node.class=liver$node.class,
                            propagate = TRUE)
 tree.post <- AbsorbEvidence(tree.init.p, c("Nr1i3", "chr1_42.65"), list(1,"1"))
 marg <- Marginals(tree.post, c("HDL", "Ppap2a"))
@@ -49,12 +49,12 @@ head(marg$marginals$Ppap2a)
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
 Journal of Machine Learning Research, 6(Sep), 1517-1550.
 }
 \seealso{
 \code{\link{PlotMarginals}} for visualization of the marginal distributions,
-\code{\link{SummaryMarginals}} for summarization of the marginal distributions of 
+\code{\link{SummaryMarginals}} for summarization of the marginal distributions of
 continuous variables.
 }
 \author{

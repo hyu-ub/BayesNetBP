@@ -1,31 +1,28 @@
 #' @importFrom igraph as.undirected
-
+#' @importFrom graph inEdges
+#' @importFrom igraph simplify
 Moralize <- function(graph){
-  # graph <- emission1000$dag
-  dag.graph <- igraph.from.graphNEL(graph, weight=FALSE)
-  und.graph <- as.undirected(dag.graph, mode = "collapse")
-  # iterate over all nodes 
-  nds <- graph::nodes(graph)
-  
-  for (i in 1:length(nds)) {
-    # i <- 1
-    node <- nds[i]
-    pa <- names(neighbors(dag.graph, node, mode="in"))
-    n.pa <- length(pa)
-    
-    if (n.pa>=2) {
-      for (k1 in 1:(n.pa - 1)) {
-        for (k2 in (k1+1):n.pa) {
-          if(!are_adjacent(und.graph, pa[k1], pa[k2])){
-            und.graph <- add_edges(und.graph, c(pa[k1],pa[k2]))
-          }
+
+  dag_nodes <- nodes(graph)
+
+  und.graph <- as.undirected(igraph.from.graphNEL(graph, weight=FALSE), mode = "collapse")
+
+  for(i in 1:length(dag_nodes)){
+    parents <- inEdges(dag_nodes[i], graph)[[dag_nodes[i]]]
+    parents_length <- length(parents)
+    if(parents_length >= 2){
+      for(p1 in 1:(parents_length-1)){
+        for(p2 in (p1+1):(parents_length)){
+
+            und.graph <- add_edges(und.graph, c(parents[p1], parents[p2])) # are_adjacent is expensive, so we don't use that.
+
         }
       }
     }
+
   }
-  
-  nel.mor <- igraph.to.graphNEL(und.graph) 
-  # x11(); plot(nel.mor)
+  und.graph <- simplify(und.graph, remove.loops=FALSE)
+  nel.mor <- igraph.to.graphNEL(und.graph)
   return(nel.mor)
-  
+
 }

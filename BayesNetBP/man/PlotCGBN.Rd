@@ -4,7 +4,8 @@
 \alias{PlotCGBN}
 \title{Plot the Bayesian network}
 \usage{
-PlotCGBN(tree.1, tree.2, fontsize = NULL, pbar = FALSE, plotting = TRUE)
+PlotCGBN(tree.1, tree.2, fontsize = NULL, pbar = FALSE,
+  plotting = TRUE)
 }
 \arguments{
 \item{tree.1}{a \code{\linkS4class{ClusterTree}}}
