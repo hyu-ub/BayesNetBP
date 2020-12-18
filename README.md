@@ -2,7 +2,7 @@
 
 This package implements belief propagation methods in Bayesian Networks to propagate evidence through the network. This package supports reasoning or inference in discrete, continuous and hybrid networks under the framework of Conditional Gaussian Bayesian networks. To cite this package, please use
 
->u, H., Moharil, J., & Blair, R. (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian Networks. Journal of Statistical Software, 94(3), 1 - 31.
+>Yu, H., Moharil, J., & Blair, R. (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian Networks. Journal of Statistical Software, 94(3), 1 - 31.
 
 Andrew Yan from Cornell University has also made significant contribution to this package by improving its computational efficiency and expanding its functionality.
 
