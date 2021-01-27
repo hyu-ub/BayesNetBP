@@ -4,8 +4,10 @@
 \name{emission}
 \alias{emission}
 \title{A ClusterTree Example of Emission Model}
-\format{The data set contains a propagated \code{\linkS4class{ClusterTree}} object \code{emission} 
-ready for evidence absorption and making queries.}
+\format{
+The data set contains a propagated \code{\linkS4class{ClusterTree}} object \code{emission} 
+ready for evidence absorption and making queries.
+}
 \usage{
 data(emission)
 }

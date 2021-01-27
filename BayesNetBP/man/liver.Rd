@@ -4,7 +4,8 @@
 \name{liver}
 \alias{liver}
 \title{Mus Musculus HDL QTL data from Leduc et. al. (2012)}
-\format{The data set \code{liver} contains three objects: the data, a learned Bayesian network structure 
+\format{
+The data set \code{liver} contains three objects: the data, a learned Bayesian network structure 
 and \code{vector} specifying node type. The fields are described as follows:  
 
 \describe{
@@ -14,7 +15,8 @@ and \code{vector} specifying node type. The fields are described as follows:
  are of class \code{factor} and continuous phenotypes are of class \code{numeric}.}
  \item{\code{dag}}{a \code{graphNEL} object, which is the network structure learned by \code{qtlnet} package.}
  \item{\code{node.class}}{a named \code{vector} of \code{logical} values indicating whether each node is discrete.}
-}}
+}
+}
 \usage{
 data(liver)
 }

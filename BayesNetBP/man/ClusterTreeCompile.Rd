@@ -9,7 +9,7 @@ ClusterTreeCompile(dag, node.class)
 \arguments{
 \item{dag}{a \code{graphNEL} object of the Bayesian network}
 
-\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node 
+\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node
 is discrete, \code{FASLE} if otherwise}
 }
 \value{
@@ -17,7 +17,7 @@ is discrete, \code{FASLE} if otherwise}
 \item{\code{tree.graph}}{a \code{graphNEL} object of semi-elimination tree.}
 \item{\code{dag}}{a \code{graphNEL} object of original Bayesian network.}
 \item{\code{cluster.sets}}{a \code{list} of members of each cluster.}
-\item{\code{node.class}}{a named \code{vector} of \code{logical} values, \code{TRUE} if node 
+\item{\code{node.class}}{a named \code{vector} of \code{logical} values, \code{TRUE} if node
 is discrete, \code{FASLE} if otherwise}
 \item{\code{elimination.order}}{a \code{vector} of node names sorted by the elimination order.}
 }
@@ -28,8 +28,8 @@ Get the cluster sets and strong semi-elimination tree from the Bayesian network
 \details{
 This function forms the cluster sets and the semi-elimination tree graph
 from the Bayesian network. The procedures include acquiring the elimination order,
-moralization, triangulation, obtaining cluster sets, forming strong elimination 
-tree and strong semi-elimination tree. The cluster sets and the semi-elimination 
+moralization, triangulation, obtaining cluster sets, forming strong elimination
+tree and strong semi-elimination tree. The cluster sets and the semi-elimination
 tree are required to initialize the cluster tree.
 }
 \examples{
@@ -39,8 +39,11 @@ cst <- ClusterTreeCompile(dag=liver$dag, node.class=liver$node.class)
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
-Journal of Machine Learning Research, 6(Sep), 1517-1550.
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
+\cr
+Yu H, Moharil J, Blair RH (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian
+Networks. Journal of Statistical Software, 94(3), 1-31. <doi:10.18637/jss.v094.i03>.
 }
 \seealso{
 \code{\link{ElimTreeInitialize}}

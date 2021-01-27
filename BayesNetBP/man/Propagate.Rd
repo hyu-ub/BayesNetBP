@@ -33,3 +33,14 @@ tree.init.p <- Propagate(tree.init)
 tree.init.p@propagated
 
 }
+\references{
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
+\cr
+Lauritzen, S. L., & Spiegelhalter, D. J. (1988). Local computations with probabilities on
+graphical structures and their application to expert systems. Journal of the Royal Statistical
+Society. Series B (Methodological), 157-224. \cr
+\cr
+Yu H, Moharil J, Blair RH (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian
+Networks. Journal of Statistical Software, 94(3), 1-31. <doi:10.18637/jss.v094.i03>.
+}

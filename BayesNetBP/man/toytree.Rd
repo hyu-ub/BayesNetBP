@@ -4,8 +4,10 @@
 \name{toytree}
 \alias{toytree}
 \title{A ClusterTree Example of Liver Model}
-\format{The data set contains a propagated \code{\linkS4class{ClusterTree}} object \code{toytree}, 
-which is ready for evidence absorption and making queries.}
+\format{
+The data set contains a propagated \code{\linkS4class{ClusterTree}} object \code{toytree}, 
+which is ready for evidence absorption and making queries.
+}
 \usage{
 data(toytree)
 }

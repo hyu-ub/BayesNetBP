@@ -4,7 +4,15 @@
 \alias{ComputeKLDs}
 \title{Compute signed and symmetric Kullback-Leibler divergence}
 \usage{
-ComputeKLDs(tree, var0, vars, seq, pbar = TRUE, method = "gaussian")
+ComputeKLDs(
+  tree,
+  var0,
+  vars,
+  seq,
+  pbar = TRUE,
+  method = "gaussian",
+  epsilon = 10^-6
+)
 }
 \arguments{
 \item{tree}{a \code{\linkS4class{ClusterTree}} object}
@@ -19,6 +27,10 @@ ComputeKLDs(tree, var0, vars, seq, pbar = TRUE, method = "gaussian")
 
 \item{method}{method for divergence computation:
 \code{gaussian} for Gaussian approximation, \code{} for Monte Carlo integration}
+
+\item{epsilon}{\code{numeric(1)} the KL divergence is undefined if certain states of a discrete variable 
+have probabilities of 0. In this case, a small positive number epsilon is assigned as their probabilities for
+calculating the divergence. The probabilities of other states are shrunked proportionally to ensure they sum up to 1.}
 }
 \value{
 a \code{data.frame} of the divergence
@@ -34,14 +46,21 @@ continuous variables.
 \examples{
 \dontrun{
 data(liver)
-tree.init.p <- Initializer(dag=liver$dag, data=liver$data, 
-                           node.class=liver$node.class, 
+tree.init.p <- Initializer(dag=liver$dag, data=liver$data,
+                           node.class=liver$node.class,
                            propagate = TRUE)
-klds <- ComputeKLDs(tree=tree.init.p, var0="Nr1i3", 
+klds <- ComputeKLDs(tree=tree.init.p, var0="Nr1i3",
                     vars=setdiff(tree.init.p@node, "Nr1i3"),
                     seq=seq(-3,3,0.5))
 head(klds)
 }
+}
+\references{
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
+\cr
+Yu H, Moharil J, Blair RH (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian
+Networks. Journal of Statistical Software, 94(3), 1-31. <doi:10.18637/jss.v094.i03>.
 }
 \author{
 Han Yu

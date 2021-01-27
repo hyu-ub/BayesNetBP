@@ -15,7 +15,7 @@ ElimTreeInitialize(tree, dag, model, node.sets, node.class)
 
 \item{node.sets}{a \code{list} of cluster sets obtained from \code{\link{ClusterTreeCompile}} function}
 
-\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node 
+\item{node.class}{a named \code{vector} of \code{logical} values, \code{TRUE} if node
 is discrete, \code{FASLE} if otherwise}
 }
 \value{
@@ -32,16 +32,19 @@ Initialize the elimination tree with the local models
 data(liver)
 cst <- ClusterTreeCompile(dag=liver$dag, node.class=liver$node.class)
 models <- LocalModelCompile(data=liver$data, dag=liver$dag, node.class=liver$node.class)
-tree.init <- ElimTreeInitialize(tree=cst$tree.graph, 
-                                dag=cst$dag, 
-                                model=models, 
-                                node.sets=cst$cluster.sets, 
+tree.init <- ElimTreeInitialize(tree=cst$tree.graph,
+                                dag=cst$dag,
+                                model=models,
+                                node.sets=cst$cluster.sets,
                                 node.class=cst$node.class)
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
-Journal of Machine Learning Research, 6(Sep), 1517-1550.
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
+\cr
+Yu H, Moharil J, Blair RH (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian
+Networks. Journal of Statistical Software, 94(3), 1-31. <doi:10.18637/jss.v094.i03>.
 }
 \seealso{
 The functions \code{\link{ClusterTreeCompile}} and \code{\link{LocalModelCompile}} provide necessary

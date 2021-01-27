@@ -20,10 +20,10 @@ FactorQuery(tree, vars = c(), mode = c("joint", "conditional", "list"))
 Obtain the joint, marginal, and conditional distributions of discrete variables
 }
 \details{
-Query the joint distribution of any combination of discrete variables when 
+Query the joint distribution of any combination of discrete variables when
 mode is "joint", or conditional distribution of a discrete variable. The mode "list"
-return a \code{list} of variable combinations, such that joint distributions of any subset 
-of them are ready for extraction. Queries outside this list are also supported but may 
+return a \code{list} of variable combinations, such that joint distributions of any subset
+of them are ready for extraction. Queries outside this list are also supported but may
 take longer computing time. This function will also return marginal distribution if only
 one variable is queried.
 }
@@ -33,8 +33,8 @@ data(chest)
 dag <- chest$dag
 node.class <- rep(TRUE, length(dag@nodes))
 names(node.class) <- dag@nodes
-tree.init.p <- Initializer(dag=dag, data=chest$data, 
-                           node.class=node.class, 
+tree.init.p <- Initializer(dag=dag, data=chest$data,
+                           node.class=node.class,
                            propagate=TRUE)
 # joint distribution
 FactorQuery(tree=tree.init.p, vars=c("tub", "xray", "dysp", "asia"), mode="joint")
@@ -44,8 +44,11 @@ FactorQuery(tree=tree.init.p, vars=c("xray"), mode="conditional")
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
-Journal of Machine Learning Research, 6(Sep), 1517-1550.
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
+Journal of Machine Learning Research, 6(Sep), 1517-1550. \cr
+\cr
+Yu H, Moharil J, Blair RH (2020). BayesNetBP: An R Package for Probabilistic Reasoning in Bayesian
+Networks. Journal of Statistical Software, 94(3), 1-31. <doi:10.18637/jss.v094.i03>.
 }
 \author{
 Han Yu

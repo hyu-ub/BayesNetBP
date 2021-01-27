@@ -15,7 +15,7 @@ PlotMarginals(marginals, groups = NULL)
 Plot the marginal distributions.
 }
 \details{
-Plot the marginal distributions. Marginals of discrete variables are plotted as 
+Plot the marginal distributions. Marginals of discrete variables are plotted as
 bar plots, while those of continuous variables as density plots.
 }
 \examples{
@@ -25,7 +25,7 @@ PlotMarginals(marginals=marg, groups=NULL)
 
 }
 \references{
-Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks. 
+Cowell, R. G. (2005). Local propagation in conditional Gaussian Bayesian networks.
 Journal of Machine Learning Research, 6(Sep), 1517-1550.
 }
 \seealso{

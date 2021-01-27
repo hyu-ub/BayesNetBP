@@ -4,11 +4,13 @@
 \name{emission1000}
 \alias{emission1000}
 \title{A simulated data from the Emission example}
-\format{The data set \code{emission1000} contains two objects: 
+\format{
+The data set \code{emission1000} contains two objects: 
 \describe{
  \item{\code{data}}{a \code{data.frame} object of 1000 observations and 3 discrete variables and 6 continuous variables.}
  \item{\code{dag}}{a \code{graphNEL} object specifying the network structure.}
-}}
+}
+}
 \usage{
 data(emission1000)
 }

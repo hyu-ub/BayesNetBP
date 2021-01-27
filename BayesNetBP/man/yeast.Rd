@@ -4,9 +4,11 @@
 \name{yeast}
 \alias{yeast}
 \title{Saccharomyces Cerevisiae eQTL data from Kruglak et. al. (2005)}
-\format{The data set \code{yeast} is a data frame of 112 observations of 50 variables: genotype 
+\format{
+The data set \code{yeast} is a data frame of 112 observations of 50 variables: genotype 
 data (genotype states at 12 SNP markers) and phenotype data (normalized and discretized 
-expression values of 38 genes). Both genotypes and phenotypes are of class \code{factor}.}
+expression values of 38 genes). Both genotypes and phenotypes are of class \code{factor}.
+}
 \usage{
 data(yeast)
 }

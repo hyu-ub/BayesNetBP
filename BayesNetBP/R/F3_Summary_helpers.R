@@ -15,7 +15,7 @@ MeanSD <- function(df) {
 ## Divergence calculation
 ###########################################
 
-SymmetricKLD <- function(post1, post2, discrete, method = "gaussian") {
+SymmetricKLD <- function(post1, post2, discrete, method = "gaussian", epsilon = 10^-6) {
   if (!discrete) {
     if (method == "mc"){
       return(SymKLD.continuous.mc(post1, post2))
@@ -24,7 +24,7 @@ SymmetricKLD <- function(post1, post2, discrete, method = "gaussian") {
     }
     
   } else {
-    return(SymKLD.discrete(post1, post2))
+    return(SymKLD.discrete(post1, post2, epsilon = epsilon))
   }
 }
 
@@ -135,7 +135,27 @@ SymKLD.continuous <- function(post1, post2) {
 ## Divergence for discrete node
 ###########################################
 
-SymKLD.discrete <- function(p1, p2) {
+SymKLD.discrete <- function(p1, p2, epsilon = 10^-6) {
+  
+  ind_01 <- which(p1 == 0)
+  ind_11 <- which(p1 != 0)
+  ind_02 <- which(p2 == 0)
+  ind_12 <- which(p2 != 0)
+  n1 <- length(ind_01)
+  n2 <- length(ind_02)
+  
+  if(n1 > 0) {
+    p1[ind_01] <- epsilon
+    compensate <- epsilon*n1
+    p1[ind_11] <- p1[ind_11] - compensate*p1[ind_11]
+  }
+  
+  if(n2 > 0) {
+    p2[ind_02] <- epsilon
+    compensate <- epsilon*n2
+    p2[ind_12] <- p2[ind_12] - compensate*p2[ind_12]
+  }
+  
   kld1 <- sum(p1*log(p1/p2))
   kld2 <- sum(p2*log(p2/p1))
   return(0.5*(kld1+kld2))
