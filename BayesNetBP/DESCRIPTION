@@ -2,7 +2,7 @@ Package: BayesNetBP
 Type: Package
 Title: Bayesian Network Belief Propagation
 Version: 1.5.7
-Date: 2021-01-27
+Date: 2021-03-12
 Author: Han Yu, Rachael Blair, Janhavi Moharil, Andrew Yan
 Maintainer: Han Yu <hyu9@buffalo.edu>
 Depends: R (>= 3.6.0), stats, utils
@@ -15,6 +15,6 @@ Description: Belief propagation methods in Bayesian Networks to propagate eviden
 License: GPL (>= 2)
 RoxygenNote: 7.1.0
 NeedsCompilation: no
-Packaged: 2021-01-27 02:30:31 UTC; hyu9
+Packaged: 2021-03-12 02:30:31 UTC; hyu9
 Repository: CRAN
-Date/Publication: 2021-01-27 15:40:17 UTC
+Date/Publication: 2021-03-12 15:40:17 UTC
