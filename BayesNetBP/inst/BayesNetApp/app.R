@@ -4,6 +4,8 @@ library(BayesNetBP)
 library(googleVis)
 library(igraph)
 
+options(shiny.maxRequestSize = 300*1024^2)
+
 data("toytree")
 # `tree` and `subtree` are objects of class ClusterTree
 tree <- toytree
