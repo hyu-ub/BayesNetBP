@@ -1,0 +1,19 @@
+bibentry(bibtype = "Article",
+  title        = "{BayesNetBP}: An {R} Package for Probabilistic Reasoning in Bayesian Networks",
+  author       = c(person(given = "Han",
+                          family = "Yu"),
+                   person(given = "Janhavi",
+                          family = "Moharil"),
+                   person(given = c("Rachael", "Hageman"),
+                          family = "Blair",
+                          email = "hageman@buffalo.edu")),
+  journal      = "Journal of Statistical Software",
+  year         = "2020",
+  volume       = "94",
+  number       = "3",
+  pages        = "1--31",
+  doi          = "10.18637/jss.v094.i03",
+
+  header       = "To cite BayesNetBP in publications use:"
+)
+
