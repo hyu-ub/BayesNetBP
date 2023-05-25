@@ -173,7 +173,7 @@ server <- function(input, output, session) {
 
   graph.json <- dataFramesToJSON(tbl.edges, tbl.nodes)
   output$cyjShiny <- renderCyjShiny(
-    cyjShiny(graph=graph.json, layoutName="preset", styleFile="biologicalStyle.js")
+    cyjShiny(graph=graph.json, layoutName="cose", styleFile="biologicalStyle.js")
   )
   # event observation
 
@@ -194,7 +194,7 @@ server <- function(input, output, session) {
       ###
 
       output$cyjShiny <- renderCyjShiny(
-        cyjShiny(graph=graph.json, layoutName="preset", styleFile="biologicalStyle.js")
+        cyjShiny(graph=graph.json, layoutName="cose", styleFile="biologicalStyle.js")
       )
 
       v$tree.init=tree
