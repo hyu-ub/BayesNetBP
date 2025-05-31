@@ -136,7 +136,11 @@ ModelCompileData <- function(data, dag, node.class) {
 
         # print(c("######################################################FORM:", form))
 
-
+        if(nrow(df.sub) < length(continuous.parents)) {
+          cat(form.str, "\n")
+          stop("Number of obs too small")
+        }
+        
         lm.fit <- lm(form, df.sub)
         coefs <- coef(lm.fit)
 
@@ -204,8 +208,11 @@ ModelCompileData <- function(data, dag, node.class) {
         form <- as.formula(form.str)
 
         # print(c("######################################################FORM:", form))
-
-
+        if(nrow(df.sub) < length(continuous.parents)) {
+          cat(form.str, "\n")
+          stop("Number of obs too small")
+        }
+        
         lm.fit <- lm(form, df.sub)
         coefs <- coef(lm.fit)
 
