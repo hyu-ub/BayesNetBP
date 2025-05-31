@@ -209,6 +209,7 @@ ModelCompileData <- function(data, dag, node.class) {
 
         # print(c("######################################################FORM:", form))
         if(nrow(df.sub) < length(continuous.parents)) {
+          cat(comb.val.list[j], "\n")
           cat(form.str, "\n")
           stop("Number of obs too small")
         }
